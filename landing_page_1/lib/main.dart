@@ -12,7 +12,7 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Landing Page Started'),
+          child: Text('Landing Page Started now '),
         ),
       ),
     );
