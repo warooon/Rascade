@@ -14,10 +14,13 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("use Drawer to switch the Theme",style: TextStyle(fontSize: 15),),
+        title: const Text(
+          "use Drawer to switch the Theme",
+          style: TextStyle(fontSize: 15),
+        ),
         backgroundColor: Color(0xffE6C6EB),
         leading: Builder(
           builder: (context) => IconButton(
@@ -69,7 +72,8 @@ class _LandingPageState extends State<LandingPage> {
           const Stack(
             children: [
               Image(
-                image: AssetImage('lib/assets/images/aalok_logo_1_-removebg-preview.png'),
+                image: AssetImage(
+                    'lib/assets/images/aalok_logo_1_-removebg-preview.png'),
                 width: 185,
                 height: 162,
               ),
