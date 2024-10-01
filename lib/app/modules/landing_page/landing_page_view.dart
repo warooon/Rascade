@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:rascade_mobile_app/theme/theme_provider.dart';
+import 'package:rascade_mobile_app/app/modules/landing_page/landing_page_controller.dart';
+
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -13,51 +12,14 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("use Drawer to switch the Theme",style: TextStyle(fontSize: 15),),
-        backgroundColor: Color(0xffE6C6EB),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.menu, color: Color(0xff36103D)),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
-        ),
-      ),
-      drawer: Drawer(
-        backgroundColor: themeProvider.themeData.colorScheme.surface,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CupertinoSwitch(
-                value: themeProvider.isDarkMode,
-                onChanged: (value) {
-                  themeProvider.toggleTheme();
-                },
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Light         Dark",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: themeProvider.themeData.colorScheme.primary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      backgroundColor: const Color(0xffE6C6EB),
+    
+    return const Scaffold(
+      backgroundColor: Color(0xffE6C6EB),
       body: Column(
         children: [
-          const SizedBox(height: 150),
-          const Text(
+          SizedBox(height: 170),
+          Text(
             "Rascade",
             style: TextStyle(
               fontSize: 64,
@@ -66,7 +28,7 @@ class _LandingPageState extends State<LandingPage> {
               color: Color(0xFF423844),
             ),
           ),
-          const Stack(
+          Stack(
             children: [
               Image(
                 image: AssetImage('lib/assets/images/aalok_logo_1_-removebg-preview.png'),
@@ -87,14 +49,15 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ],
           ),
+          SizedBox(height: 30,),
           Padding(
-            padding: const EdgeInsets.only(top: 240.0, left: 41),
+            padding: EdgeInsets.only(top: 260.0, left: 35),
             child: ElevatedButton(
-                onPressed: () {},
-                style: const ButtonStyle(
+                onPressed: signin,
+                style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Color(0xff36103D)),
                     fixedSize: WidgetStatePropertyAll(Size(345, 55))),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -113,13 +76,13 @@ class _LandingPageState extends State<LandingPage> {
                 )),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15.0, left: 41),
+            padding: EdgeInsets.only(top: 20.0, left: 35),
             child: ElevatedButton(
-                onPressed: () {},
-                style: const ButtonStyle(
+                onPressed: signup,
+                style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Color(0xff36103D)),
                     fixedSize: WidgetStatePropertyAll(Size(345, 55))),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(

@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rascade_mobile_app/landing_page.dart';
+import 'package:rascade_mobile_app/app/modules/landing_page/landing_page_view.dart';
 
 
 void main() {
