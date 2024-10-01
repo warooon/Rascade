@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rascade_mobile_app/app/modules/UserPage/user_page_view.dart';
 import 'package:rascade_mobile_app/landing_page.dart';
 import 'package:rascade_mobile_app/theme/theme_provider.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       builder: (context, themeProvider, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: const LandingPage(),
+          home: UserProfile(),
           theme: themeProvider.themeData,
         );
       },
