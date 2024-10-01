@@ -31,7 +31,8 @@ class _LandingPageState extends State<LandingPage> {
           Stack(
             children: [
               Image(
-                image: AssetImage('lib/assets/images/aalok_logo_1_-removebg-preview.png'),
+                image: AssetImage(
+                    'lib/assets/images/aalok_logo_1_-removebg-preview.png'),
                 width: 185,
                 height: 162,
               ),
