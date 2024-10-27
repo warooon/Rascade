@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:get/get.dart';
+import 'package:rascade/app/screens/Home/home_binding.dart';
+import 'package:rascade/app/screens/Home/home_view.dart';
 import 'package:rascade/app/screens/SignIn/signin_page_binding.dart';
 import 'package:rascade/app/screens/SignUp%20Page/signup_page_binding.dart';
 import 'package:rascade/app/screens/SignUp%20Page/signup_page_view.dart';
@@ -32,6 +34,11 @@ class AppPages {
       name: _Paths.SIGN_UP,
       page: () => SignUpPageView(),
       binding: SignUpPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME,
+      page: () => HomeView(),
+      binding: HomeBinding(),
     ),
 
   ];

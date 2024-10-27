@@ -44,7 +44,7 @@ class SignInPageView extends GetView<LandingPageController> {
                             height: screenHeight * 0.05,
                             text: "Sign Up",
                             showArrow: true,
-                            onPressed: () {},
+                            onPressed: () => Get.toNamed(Routes.SIGN_UP),
                           ),
                       ],
                     ),

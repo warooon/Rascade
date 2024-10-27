@@ -79,7 +79,7 @@ class LandingPageView extends GetView<LandingPageController> {
                 width: screenWidth * 0.85,
                 height: screenHeight * 0.075,
                 text: "Sign Up",
-                onPressed: () => {},
+                onPressed: () => Get.toNamed(Routes.SIGN_UP),
                 showArrow: true,
               )
             ],
