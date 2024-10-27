@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "932634105910",
+    "project_id": "rascade-app",
+    "storage_bucket": "rascade-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932634105910:android:ac126df051cb74ee9a2097",
+        "android_client_info": {
+          "package_name": "com.example.rascade"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEJgGMgFLcCJO7gl3mLYHrfneurxJURck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
