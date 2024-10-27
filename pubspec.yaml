@@ -55,10 +55,8 @@ dev_dependencies:
 flutter:
   assets:
     - lib/assets/fonts/
-    - lib/assets/images/aalok_logo_1_-removebg-preview.png
-    - lib/assets/images/Image 2.png
-    - lib/assets/images/user_profile.png
-    - lib/assets/images/back_arrow.png
+    - lib/assets/images/
+
   fonts:
     - family: NicoMoji
       fonts:
@@ -66,6 +64,10 @@ flutter:
     - family: RubikGlitch
       fonts:
         - asset: lib/assets/fonts/RubikGlitch-Regular.ttf
+    - family: Rubik
+      fonts:
+        - asset: lib/assets/fonts/Rubik-SemiBold.ttf
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
