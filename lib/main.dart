@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rascade_mobile_app/app/modules/UserPage/user_page_view.dart';
 import 'package:rascade_mobile_app/landing_page.dart';
 import 'package:rascade_mobile_app/theme/theme_provider.dart';
-import 'package:rascade_mobile_app/LoginPage.dart';
+// import 'package:rascade_mobile_app/LoginPage.dart';
 
 void main() {
   runApp(
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       builder: (context, themeProvider, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: LoginPage(),
+          home: UserProfile(),
           theme: themeProvider.themeData,
         );
       },

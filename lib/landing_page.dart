@@ -21,7 +21,7 @@ class _LandingPageState extends State<LandingPage> {
           "use Drawer to switch the Theme",
           style: TextStyle(fontSize: 15),
         ),
-        backgroundColor: Color(0xffE6C6EB),
+        backgroundColor: const Color(0xffE6C6EB),
         leading: Builder(
           builder: (context) => IconButton(
             icon: Icon(Icons.menu, color: Color(0xff36103D)),
