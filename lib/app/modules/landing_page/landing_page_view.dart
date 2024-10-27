@@ -15,7 +15,7 @@ class _LandingPageState extends State<LandingPage> {
     
     
     return const Scaffold(
-      backgroundColor: Color(0xffE6C6EB),
+      backgroundColor: const Color(0xffE6C6EB),
       body: Column(
         children: [
           SizedBox(height: 170),
