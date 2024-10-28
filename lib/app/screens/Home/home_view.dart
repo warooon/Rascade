@@ -3,13 +3,14 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:rascade/app/screens/Home/home_controller.dart';
 import 'package:rascade/app/screens/LandingPage/landing_page_controller.dart';
 import 'package:rascade/app/utils/app_colors.dart';
 import 'package:rascade/widgets/button.dart';
 import '../../../widgets/particles/particle_system.dart';
 import '../../routes/app_pages.dart';
 
-class HomeView extends GetView<LandingPageController> {
+class HomeView extends GetView<HomeController> {
   HomeView({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -68,7 +69,7 @@ class HomeView extends GetView<LandingPageController> {
                     fontFamily: "NicoMoji",
                     fontSize: 20),
               ),
-              onTap: () {},
+              onTap: () => Get.toNamed(Routes.PROFILE),
             ),
             ListTile(
               leading: Icon(
@@ -83,7 +84,22 @@ class HomeView extends GetView<LandingPageController> {
                     fontFamily: "NicoMoji",
                     fontSize: 20),
               ),
-              onTap: () {},
+              onTap: () => Get.toNamed(Routes.QR),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.qr_code_2,
+                color: AppColor.rascadePurple,
+                size: 30,
+              ),
+              title: Text(
+                "Admin Portal",
+                style: TextStyle(
+                    color: AppColor.rascadePurple,
+                    fontFamily: "NicoMoji",
+                    fontSize: 20),
+              ),
+              onTap: () => Get.toNamed(Routes.ADMIN),
             ),
             ListTile(
               leading: Icon(
