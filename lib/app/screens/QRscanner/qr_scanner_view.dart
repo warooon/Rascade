@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rascade/app/screens/LandingPage/landing_page_controller.dart';
 import 'package:rascade/app/screens/QRscanner/qr_scanner_controller.dart';
 import 'package:rascade/app/utils/app_colors.dart';
 import '../../../widgets/particles/particle_system.dart';
@@ -12,7 +11,7 @@ class QrScannerView extends GetView<QrScannerController> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(

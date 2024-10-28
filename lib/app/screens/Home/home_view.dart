@@ -1,12 +1,8 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:rascade/app/screens/Home/home_controller.dart';
-import 'package:rascade/app/screens/LandingPage/landing_page_controller.dart';
 import 'package:rascade/app/utils/app_colors.dart';
-import 'package:rascade/widgets/button.dart';
 import '../../../widgets/particles/particle_system.dart';
 import '../../routes/app_pages.dart';
 
