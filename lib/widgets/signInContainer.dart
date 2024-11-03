@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../app/utils/app_colors.dart';
+import 'package:rascade/app/screens/SignIn/signin_page_controller.dart';
 
 class LoginContainer extends StatelessWidget {
   final String text;
@@ -12,6 +14,7 @@ class LoginContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<SignInPageController>();
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
@@ -48,7 +51,7 @@ class LoginContainer extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -62,13 +65,14 @@ class LoginContainer extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 width: screenWidth * 0.8,
                 child: TextField(
+                  controller: controller.emailc,
                   decoration: InputDecoration(
                     hintText: "abc@email.com",
                     border: InputBorder.none,
@@ -106,50 +110,51 @@ class LoginContainer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 width: screenWidth * 0.8,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "Enter password",
-                    border: InputBorder.none,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipOval(
-                        child: Image.asset(
-                          "assets/images/password_icon.png",
-                          fit: BoxFit.contain,
+                child: Obx(() => TextField(
+                      controller: controller.passwordc,
+                      obscureText: controller.obscureText.value,
+                      decoration: InputDecoration(
+                        hintText: "Enter password",
+                        border: InputBorder.none,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipOval(
+                            child: Image.asset(
+                              "assets/images/password_icon.png",
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
+                    )),
               ),
               const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: screenHeight * 0.05,
-                  width: screenWidth * 0.4,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColor.textColor,
-                  ),
-                  child: GestureDetector(
-                    // onTap: () => print("Login Pressed"),
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                        color: AppColor.rascadePurple,
-                        fontFamily: "Rubik",
-                        fontSize: 23,
-                        fontWeight: FontWeight.w800,
+              Obx(() => controller.isLoading.value
+                  ? CircularProgressIndicator()
+                  : GestureDetector(
+                      onTap: () => controller.login(),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: screenHeight * 0.05,
+                        width: screenWidth * 0.4,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColor.textColor,
+                        ),
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                            color: AppColor.rascadePurple,
+                            fontFamily: "Rubik",
+                            fontSize: 23,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ),
+                    )),
               const SizedBox(height: 5),
               GestureDetector(
-                // onTap: () => print("Forgot Password Pressed"),
+                onTap: () => print("Forgot Password Pressed"),
                 child: const Text(
                   "Forgot Password?",
                   style: TextStyle(

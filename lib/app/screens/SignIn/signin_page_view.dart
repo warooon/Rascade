@@ -21,34 +21,39 @@ class SignInPageView extends GetView<SignInPageController> {
       body: Stack(
         children: [
           IgnorePointer(child: ParticleSystem()),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const LoginContainer(text: "Member Login"),
-                  SizedBox(height: screenHeight * 0.02),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth*0.1),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Don't have an account?",
-                          style: TextStyle(color: AppColor.textColor),
-                        ),
-                         CustomButton(
+          SingleChildScrollView(
+            physics: const RangeMaintainingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: screenHeight * 0.15),
+                    const LoginContainer(text: "Member Login"),
+                    SizedBox(height: screenHeight * 0.02),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Don't have an account?",
+                            style: TextStyle(color: AppColor.textColor),
+                          ),
+                          CustomButton(
                             width: screenWidth * 0.35,
                             height: screenHeight * 0.05,
                             text: "Sign Up",
                             showArrow: true,
                             onPressed: () => Get.toNamed(Routes.SIGN_UP),
                           ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

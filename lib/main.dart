@@ -22,7 +22,7 @@ void main() async {
         return GetMaterialApp(
           title: 'Rascade',
           debugShowCheckedModeBanner: false,
-          initialRoute: snapshot.data != null ? Routes.SIGN_IN : Routes.LANDING,
+          initialRoute: snapshot.data != null ? Routes.HOME : Routes.LANDING,
           getPages: AppPages.routes,
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,

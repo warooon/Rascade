@@ -242,7 +242,7 @@ class TeamDetailsView extends GetView<TeamDetailsController> {
                 height: screenHeight * 0.03,
               ),
               GestureDetector(
-                onTap: () => Get.offAllNamed(Routes.HOME),
+                onTap: () => Get.offAllNamed(Routes.ADMIN),
                 child: Image.asset(
                   "assets/images/arrow_2.png",
                   color: AppColor.textColor,

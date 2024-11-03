@@ -1,3 +1,4 @@
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +9,7 @@ import '../../routes/app_pages.dart';
 
 class HomeView extends GetView<HomeController> {
   HomeView({super.key});
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class HomeView extends GetView<HomeController> {
                     fontFamily: "NicoMoji",
                     fontSize: 20),
               ),
-              onTap: () => Get.toNamed(Routes.PROFILE),
+              onTap: () => Get.toNamed(Routes.PROFILE, arguments: controller.userId),
             ),
             ListTile(
               leading: Icon(
@@ -111,7 +112,7 @@ class HomeView extends GetView<HomeController> {
                     fontFamily: "NicoMoji",
                     fontSize: 20),
               ),
-              onTap: () => Get.offAllNamed(Routes.LANDING),
+              onTap: () => controller.signOut(),
             ),
           ],
         ),
@@ -124,26 +125,47 @@ class HomeView extends GetView<HomeController> {
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/images/robot_2.png",
                       height: 150,
                       width: 150,
                     ),
-                    Text(
-                      "Hii ",
-                      style: TextStyle(
-                          color: AppColor.rascadePurple,
-                          fontFamily: "NicoMoji",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25),
-                    ),
-                    Text(
-                      "username!",
-                      style: TextStyle(
-                          color: AppColor.textColor,
-                          fontFamily: "NicoMoji",
-                          fontSize: 25),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: screenWidth * 0.4,
+                          child: Text(
+                            "Welcome!",
+                            style: TextStyle(
+                              color: AppColor.textColor,
+                              fontFamily: "NicoMoji",
+                              fontSize: 25,
+                            ),
+                            overflow: TextOverflow.fade,
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.01,
+                        ),
+                        Obx(() {
+                          return SizedBox(
+                            width: screenWidth * 0.5,
+                            child: Text(
+                              " ${controller.userName.value}",
+                              style: TextStyle(
+                                color: AppColor.textColor,
+                                fontFamily: "NicoMoji",
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                              overflow: TextOverflow.fade,
+                            ),
+                          );
+                        }),
+                      ],
                     ),
                   ],
                 ),
@@ -166,15 +188,67 @@ class HomeView extends GetView<HomeController> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: screenHeight * 0.01,
-                ),
+                SizedBox(height: screenHeight * 0.01),
                 Container(
                   height: screenHeight * 0.25,
                   width: screenWidth * 0.9,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: AppColor.textColor),
+                    borderRadius: BorderRadius.circular(20),
+                    color: AppColor.textColor,
+                  ),
+                  child: Obx(() {
+                    if (controller.teamMembers.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "No members found in your team.",
+                          style: TextStyle(color: AppColor.textColor),
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: controller.teamMembers.length,
+                      itemBuilder: (context, index) {
+                        final memberData = controller.teamMembers[index];
+                        return Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.PROFILE,
+                                    arguments: memberData['uid']);
+                              },
+                              child: Container(
+                                width: screenWidth * 0.6,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: screenHeight * 0.01),
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: BoxDecoration(
+                                  color: AppColor.rascadePurple,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColor.rascadePurple,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    memberData['name'],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: AppColor.textColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -195,19 +269,37 @@ class HomeView extends GetView<HomeController> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: screenHeight * 0.01,
-                ),
+                SizedBox(height: screenHeight * 0.01),
                 Container(
                   height: screenHeight * 0.25,
                   width: screenWidth * 0.9,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: AppColor.textColor),
+                  child: const Column(
+                    children: [
+                      // Obx(() {
+                      //   if (controller.teamMembers.isEmpty) {
+                      //     return Text("No leaderboard data available.");
+                      //   }
+                      //   return ListView.builder(
+                      //     itemCount: controller.teamMembers.length,
+                      //     itemBuilder: (context, index) {
+                      //       final memberData = controller.teamMembers[index];
+                      //       return ListTile(
+                      //         title: Text(memberData['name']),
+                      //         subtitle:
+                      //             Text(memberData['score']?.toString() ?? "0"),
+                      //       );
+                      //     },
+                      //   );
+                      // }),
+                    ],
+                  ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

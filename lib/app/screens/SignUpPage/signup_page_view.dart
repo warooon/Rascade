@@ -1,15 +1,10 @@
-// ignore_for_file: unused_import
-
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:rascade/app/screens/LandingPage/landing_page_controller.dart';
-import 'package:rascade/app/screens/SignUpPage/signup_page_controller.dart';
 import 'package:rascade/app/utils/app_colors.dart';
+import '../../../widgets/customTextField.dart';
 import '../../../widgets/particles/particle_system.dart';
 import '../../routes/app_pages.dart';
+import 'signup_page_controller.dart';
 
 class SignUpPageView extends GetView<SignUpPageController> {
   const SignUpPageView({super.key});
@@ -57,183 +52,72 @@ class SignUpPageView extends GetView<SignUpPageController> {
                       padding: const EdgeInsets.all(18.0),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Name",
-                                style: TextStyle(
-                                  color: AppColor.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'Rubik',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            width: screenWidth * 0.8,
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                hintText: "username",
-                                border: InputBorder.none,
-                                prefixIcon: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(Icons.person)),
-                              ),
-                            ),
+                          CustomTextField(
+                            label: "Name",
+                            hintText: "username",
+                            icon: Icons.person,
+                            controller: controller.nameController,
                           ),
                           const SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Team Name",
-                                style: TextStyle(
-                                  color: AppColor.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'Rubik',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            width: screenWidth * 0.8,
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                hintText: "team name",
-                                border: InputBorder.none,
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: ClipOval(child: Icon(Icons.people)),
-                                ),
-                              ),
-                            ),
+                          CustomTextField(
+                            label: "Team Name",
+                            hintText: "team name",
+                            icon: Icons.people,
+                            controller: controller.teamNameController,
                           ),
                           const SizedBox(height: 20),
-                          Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Email ID",
-                                style: TextStyle(
-                                  color: AppColor.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'Rubik',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            width: screenWidth * 0.8,
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                hintText: "abc@email.com",
-                                border: InputBorder.none,
-                                prefixIcon: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(Icons.email)),
-                              ),
-                            ),
+                          CustomTextField(
+                            label: "Email ID",
+                            hintText: "abc@email.com",
+                            icon: Icons.email,
+                            controller: controller.emailController,
+                            keyboardType: TextInputType.emailAddress,
                           ),
                           const SizedBox(height: 10),
-                          Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Phone Number",
-                                style: TextStyle(
-                                  color: AppColor.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'Rubik',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            width: screenWidth * 0.8,
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                hintText: "+91-999999999",
-                                border: InputBorder.none,
-                                prefixIcon: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(Icons.phone)),
-                              ),
-                            ),
+                          CustomTextField(
+                            label: "Phone Number",
+                            hintText: "+91-999999999",
+                            icon: Icons.phone,
+                            controller: controller.phoneNumberController,
+                            keyboardType: TextInputType.phone,
                           ),
                           const SizedBox(height: 10),
-                          Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Password",
-                                style: TextStyle(
-                                  color: AppColor.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'Rubik',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            width: screenWidth * 0.8,
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                hintText: "********",
-                                border: InputBorder.none,
-                                prefixIcon: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(Icons.lock)),
-                              ),
-                            ),
+                          CustomTextField(
+                            label: "Password",
+                            hintText: "********",
+                            icon: Icons.lock,
+                            controller: controller.passwordController,
+                            obscureText: true,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: screenHeight * 0.03,
-                  ),
-                  GestureDetector(
-                    onTap: ()=> Get.offAllNamed(Routes.HOME),
-                    child: Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.identity()..scale(-1.0, -1.0),
+                  SizedBox(height: screenHeight * 0.03),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () => Get.offAllNamed(Routes.LANDING),
                         child: Image.asset(
                           "assets/images/arrow_2.png",
                           color: AppColor.textColor,
-                        )),
-                  )
+                        ),
+                      ),
+                      SizedBox(width: screenWidth * 0.1),
+                      GestureDetector(
+                        onTap: () => controller.registerUser(),
+                        child: Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()..scale(-1.0, -1.0),
+                          child: Image.asset(
+                            "assets/images/arrow_2.png",
+                            color: AppColor.textColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
