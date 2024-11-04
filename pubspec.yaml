@@ -1,15 +1,14 @@
 name: rascade
 description: "A new Flutter project."
-publish_to: 'none' 
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.5.0-250.0.dev <4.0.0'
+  sdk: ">=3.5.0-250.0.dev <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
 
   cupertino_icons: ^1.0.8
   get: ^4.6.6
@@ -17,13 +16,15 @@ dependencies:
   firebase_auth: ^5.3.1
   flutter_svg: ^2.0.10+1
   cloud_firestore: ^5.4.4
+  qr_flutter: ^4.1.0
+  qrscan: ^0.3.3
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^4.0.0
-
 
 flutter:
   uses-material-design: true

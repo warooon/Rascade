@@ -64,6 +64,8 @@ class SignUpPageController extends GetxController {
         await _firestore.collection('teams').doc(teamName).set({
           'teamName': teamName,
           'createdAt': FieldValue.serverTimestamp(),
+          'rating': 0,
+          'remarks': "",
         });
       }
 
@@ -95,6 +97,10 @@ class SignUpPageController extends GetxController {
         'email': email,
         'phoneNumber': phoneNumber,
         'createdAt': FieldValue.serverTimestamp(),
+        "breakfast": [false, false, false],
+        "lunch": [false, false, false],
+        "dinner": [false, false, false],
+        "snacks": [false, false, false],
       });
 
       // Show success message

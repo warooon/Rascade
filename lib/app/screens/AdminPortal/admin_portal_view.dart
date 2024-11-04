@@ -1,19 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:rascade/app/screens/AdminPortal/admin_portal_controller.dart';
-
 import '../../../widgets/particles/particle_system.dart';
 import '../../routes/app_pages.dart';
 import '../../utils/app_colors.dart';
 
 class AdminPortalView extends GetView<AdminPortalController> {
-  const AdminPortalView({super.key});
+  AdminPortalView({super.key});
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
+    TextEditingController remarkController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +39,7 @@ class AdminPortalView extends GetView<AdminPortalController> {
           IgnorePointer(child: ParticleSystem()),
           Center(
             child: SingleChildScrollView(
-              physics: RangeMaintainingScrollPhysics(),
+              physics: const RangeMaintainingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -57,14 +59,16 @@ class AdminPortalView extends GetView<AdminPortalController> {
                             padding: const EdgeInsets.only(left: 8),
                             child: Align(
                               alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Team Name",
-                                style: TextStyle(
-                                  color: AppColor.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'Rubik',
-                                ),
-                              ),
+                              child: Obx(() => Text(
+                                    controller.teamName.value.isEmpty
+                                        ? "Scan QR to display team name"
+                                        : controller.teamName.value,
+                                    style: TextStyle(
+                                      color: AppColor.textColor,
+                                      fontSize: 18,
+                                      fontFamily: 'Rubik',
+                                    ),
+                                  )),
                             ),
                           ),
                           Padding(
@@ -80,7 +84,17 @@ class AdminPortalView extends GetView<AdminPortalController> {
                                   color: AppColor.textColor,
                                 ),
                                 child: GestureDetector(
-                                  onTap: () => Get.toNamed(Routes.TEAM_DETAILS),
+                                  onTap: () async {
+                                    var qrScanResult =
+                                        await FlutterBarcodeScanner.scanBarcode(
+                                            "#ff6666",
+                                            "Cancel",
+                                            true,
+                                            ScanMode.QR);
+                                    if (qrScanResult != '-1') {
+                                      controller.updateTeamName(qrScanResult);
+                                    }
+                                  },
                                   child: Text(
                                     "Scan QR",
                                     style: TextStyle(
@@ -96,7 +110,7 @@ class AdminPortalView extends GetView<AdminPortalController> {
                           ),
                           const SizedBox(height: 20),
                           Padding(
-                            padding: EdgeInsets.only(left: 8),
+                            padding: const EdgeInsets.only(left: 8),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
@@ -122,7 +136,7 @@ class AdminPortalView extends GetView<AdminPortalController> {
                               )),
                           const SizedBox(height: 10),
                           Padding(
-                            padding: EdgeInsets.only(left: 8),
+                            padding: const EdgeInsets.only(left: 8),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
@@ -136,14 +150,15 @@ class AdminPortalView extends GetView<AdminPortalController> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             width: screenWidth * 0.8,
-                            child: const TextField(
-                              decoration: InputDecoration(
+                            child: TextField(
+                              controller: remarkController,
+                              decoration: const InputDecoration(
                                 hintText: "(if any)",
                                 border: InputBorder.none,
                                 prefixIcon: Padding(
@@ -166,6 +181,17 @@ class AdminPortalView extends GetView<AdminPortalController> {
                                     color: AppColor.textColor,
                                   ),
                                   child: GestureDetector(
+                                    onTap: () {
+                                      FirebaseFirestore.instance
+                                          .collection("teams")
+                                          .doc(controller.teamName.value)
+                                          .update({
+                                        'rating': controller.currentValue.value,
+                                        'remarks': remarkController.text,
+                                      });
+
+                                      remarkController.clear();
+                                    },
                                     child: Text(
                                       "Update",
                                       style: TextStyle(
@@ -189,8 +215,12 @@ class AdminPortalView extends GetView<AdminPortalController> {
                                     color: AppColor.textColor,
                                   ),
                                   child: GestureDetector(
-                                    onTap: () =>
-                                        Get.toNamed(Routes.TEAM_DETAILS),
+                                    onTap: () => Get.toNamed(
+                                      Routes.TEAM_DETAILS,
+                                      arguments: {
+                                        "teamName": controller.teamName.value
+                                      },
+                                    ),
                                     child: Text(
                                       "View",
                                       style: TextStyle(

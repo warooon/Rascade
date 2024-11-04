@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rascade/app/screens/Team_Details/team_details_controller.dart';
@@ -12,6 +13,8 @@ class TeamDetailsView extends GetView<TeamDetailsController> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
+    final String teamName = Get.arguments?["teamName"] ?? "Team Name";
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -29,34 +32,90 @@ class TeamDetailsView extends GetView<TeamDetailsController> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Team Name",
+                      teamName == "" ? "Team Name" : teamName,
                       style: TextStyle(
                           color: AppColor.textColor,
                           fontSize: 30,
                           fontFamily: "NicoMoji",
                           fontWeight: FontWeight.bold),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "rating: ",
-                          style: TextStyle(
-                              color: AppColor.textColor,
-                              fontSize: 18,
-                              fontFamily: "Rubik",
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "10/10",
-                          style: TextStyle(
-                              color: AppColor.textColor,
-                              fontSize: 18,
-                              fontFamily: "Rubik",
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
+                    teamName != ""
+                        ? FutureBuilder<DocumentSnapshot>(
+                            future: FirebaseFirestore.instance
+                                .collection("teams")
+                                .doc(teamName)
+                                .get(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              }
+
+                              if (snapshot.hasError) {
+                                return const Text(
+                                  "Error loading rating",
+                                  style: TextStyle(color: Colors.red),
+                                );
+                              }
+
+                              if (!snapshot.hasData || !snapshot.data!.exists) {
+                                return const Text(
+                                  "No rating available",
+                                  style: TextStyle(color: Colors.grey),
+                                );
+                              }
+
+                              var rating =
+                                  snapshot.data!.get("rating") ?? "N/A";
+
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "rating: ",
+                                    style: TextStyle(
+                                      color: AppColor.textColor,
+                                      fontSize: 18,
+                                      fontFamily: "Rubik",
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "$rating/10",
+                                    style: TextStyle(
+                                      color: AppColor.textColor,
+                                      fontSize: 18,
+                                      fontFamily: "Rubik",
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "rating: ",
+                                style: TextStyle(
+                                  color: AppColor.textColor,
+                                  fontSize: 18,
+                                  fontFamily: "Rubik",
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                "10/10",
+                                style: TextStyle(
+                                  color: AppColor.textColor,
+                                  fontSize: 18,
+                                  fontFamily: "Rubik",
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                   ],
                 ),
               ),
@@ -74,166 +133,117 @@ class TeamDetailsView extends GetView<TeamDetailsController> {
                   padding: const EdgeInsets.all(18.0),
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Member 1",
-                                    style: TextStyle(
-                                        color: AppColor.textColor,
-                                        fontSize: 18,
-                                        fontFamily: 'NicoMoji',
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: AppColor.textColor,
-                                        decorationThickness: 3),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.01),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "username_1",
-                                        style: TextStyle(
-                                            color: AppColor.textColor,
-                                            fontFamily: "Rubik",
-                                            fontWeight: FontWeight.bold),
+                      teamName != ""
+                          ? FutureBuilder<QuerySnapshot>(
+                              future: FirebaseFirestore.instance
+                                  .collection("teams")
+                                  .doc(teamName)
+                                  .collection("members")
+                                  .get(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const CircularProgressIndicator();
+                                }
+
+                                if (snapshot.hasError) {
+                                  return const Text(
+                                    "Error loading members",
+                                    style: TextStyle(color: Colors.red),
+                                  );
+                                }
+
+                                if (!snapshot.hasData ||
+                                    snapshot.data!.docs.isEmpty) {
+                                  return const Text(
+                                    "No members available",
+                                    style: TextStyle(color: Colors.grey),
+                                  );
+                                }
+
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, index) {
+                                    var memberDoc = snapshot.data!.docs[index];
+                                    var memberName = memberDoc.get("name") ??
+                                        "Member $index";
+                                    var username = memberDoc.get("name") ??
+                                        "username_$index";
+
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  memberName,
+                                                  style: TextStyle(
+                                                    color: AppColor.textColor,
+                                                    fontSize: 18,
+                                                    fontFamily: 'NicoMoji',
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    decorationColor:
+                                                        AppColor.textColor,
+                                                    decorationThickness: 3,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    height:
+                                                        screenHeight * 0.01),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      username,
+                                                      style: TextStyle(
+                                                        color:
+                                                            AppColor.textColor,
+                                                        fontFamily: "Rubik",
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Image.asset(
+                                                      "assets/images/arrow.png",
+                                                      color: AppColor.textColor,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: screenHeight *
+                                                  0.02), // Spacing between items
+                                        ],
                                       ),
-                                      Image.asset("assets/images/arrow.png", color: AppColor.textColor,)
-                                    ],
-                                  ),
-                                ],
+                                    );
+                                  },
+                                );
+                              },
+                            )
+                          : Text(
+                              "NO MEMBERS",
+                              style: TextStyle(
+                                color: AppColor.textColor,
+                                fontSize: 18,
+                                fontFamily: 'NicoMoji',
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColor.textColor,
+                                decorationThickness: 3,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
                       SizedBox(height: screenHeight * 0.02),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Member 2",
-                                    style: TextStyle(
-                                        color: AppColor.textColor,
-                                        fontSize: 18,
-                                        fontFamily: 'NicoMoji',
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: AppColor.textColor,
-                                        decorationThickness: 3),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.01),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "username_2",
-                                        style: TextStyle(
-                                            color: AppColor.textColor,
-                                            fontFamily: "Rubik",
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Image.asset("assets/images/arrow.png", color: AppColor.textColor,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Member_3",
-                                    style: TextStyle(
-                                        color: AppColor.textColor,
-                                        fontSize: 18,
-                                        fontFamily: 'NicoMoji',
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: AppColor.textColor,
-                                        decorationThickness: 3),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.01),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "username_3",
-                                        style: TextStyle(
-                                            color: AppColor.textColor,
-                                            fontFamily: "Rubik",
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Image.asset("assets/images/arrow.png", color: AppColor.textColor,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Member_4",
-                                    style: TextStyle(
-                                        color: AppColor.textColor,
-                                        fontSize: 18,
-                                        fontFamily: 'NicoMoji',
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: AppColor.textColor,
-                                        decorationThickness: 3),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.01),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "username_4",
-                                        style: TextStyle(
-                                            color: AppColor.textColor,
-                                            fontFamily: "Rubik",
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Image.asset("assets/images/arrow.png", color: AppColor.textColor,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 10),
                     ],
                   ),
                 ),

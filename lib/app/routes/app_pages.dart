@@ -61,7 +61,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADMIN,
-      page: () => const AdminPortalView(),
+      page: () => AdminPortalView(),
       binding: AdminPortalBinding(),
     ),
     GetPage(
