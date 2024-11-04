@@ -15,7 +15,6 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -66,7 +65,8 @@ class HomeView extends GetView<HomeController> {
                     fontFamily: "NicoMoji",
                     fontSize: 20),
               ),
-              onTap: () => Get.toNamed(Routes.PROFILE, arguments: controller.userId),
+              onTap: () =>
+                  Get.toNamed(Routes.PROFILE, arguments: controller.userId),
             ),
             ListTile(
               leading: Icon(
@@ -83,21 +83,27 @@ class HomeView extends GetView<HomeController> {
               ),
               onTap: () => Get.toNamed(Routes.QR),
             ),
-            ListTile(
-              leading: Icon(
-                Icons.qr_code_2,
-                color: AppColor.rascadePurple,
-                size: 30,
-              ),
-              title: Text(
-                "Admin Portal",
-                style: TextStyle(
+            Obx(() {
+              if (controller.isAdmin.value) {
+                return ListTile(
+                  leading: Icon(
+                    Icons.qr_code_2,
                     color: AppColor.rascadePurple,
-                    fontFamily: "NicoMoji",
-                    fontSize: 20),
-              ),
-              onTap: () => Get.toNamed(Routes.ADMIN),
-            ),
+                    size: 30,
+                  ),
+                  title: Text(
+                    "Admin Portal",
+                    style: TextStyle(
+                        color: AppColor.rascadePurple,
+                        fontFamily: "NicoMoji",
+                        fontSize: 20),
+                  ),
+                  onTap: () => Get.toNamed(Routes.ADMIN),
+                );
+              } else {
+                return const SizedBox();
+              }
+            }),
             ListTile(
               leading: Icon(
                 Icons.exit_to_app_outlined,
@@ -133,16 +139,15 @@ class HomeView extends GetView<HomeController> {
                       width: 150,
                     ),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: screenWidth * 0.4,
+                          width: screenWidth * 0.5,
                           child: Text(
                             "Welcome!",
                             style: TextStyle(
                               color: AppColor.textColor,
                               fontFamily: "NicoMoji",
-                              fontSize: 25,
+                              fontSize: 30,
                             ),
                             overflow: TextOverflow.fade,
                           ),
@@ -154,7 +159,7 @@ class HomeView extends GetView<HomeController> {
                           return SizedBox(
                             width: screenWidth * 0.5,
                             child: Text(
-                              " ${controller.userName.value}",
+                              controller.userName.value,
                               style: TextStyle(
                                 color: AppColor.textColor,
                                 fontFamily: "NicoMoji",
@@ -206,9 +211,9 @@ class HomeView extends GetView<HomeController> {
                       );
                     }
                     return ListView.builder(
-                      itemCount: controller.teamMembers.length,
+                      itemCount: controller.teamMembers.length - 1,
                       itemBuilder: (context, index) {
-                        final memberData = controller.teamMembers[index];
+                        final memberData = controller.teamMembers[index + 1];
                         return Column(
                           children: [
                             GestureDetector(

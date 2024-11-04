@@ -52,6 +52,14 @@ class SignInPageView extends GetView<SignInPageController> {
                         ],
                       ),
                     ),
+                    SizedBox(height: screenHeight*0.05,),
+                    GestureDetector(
+                  onTap: () => Get.offAllNamed(Routes.LANDING),
+                  child: Image.asset(
+                    "assets/images/arrow_2.png",
+                    color: AppColor.textColor,
+                  ),
+                ),
                   ],
                 ),
               ),

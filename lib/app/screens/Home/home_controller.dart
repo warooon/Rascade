@@ -5,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../routes/app_pages.dart';
 
 class HomeController extends GetxController {
-  // Observable properties
   var userName = ''.obs;
   String userId = '';
+  RxBool isAdmin = false.obs;
   var teamMembers = <Map<String, dynamic>>[].obs;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -27,11 +27,12 @@ class HomeController extends GetxController {
           await _firestore.collection("users").doc(currentUser.uid).get();
       if (userDoc.exists) {
         userName.value = userDoc.data()?['name'] ?? '';
+        isAdmin.value = userDoc.data()?['isAdmin']?? false.obs;
+        print("isAdmin: ${isAdmin.value}");
       }
     }
   }
 
-  // Fetch team members from the users collection
   void fetchTeamMembers() async {
     final currentUser = _auth.currentUser;
     if (currentUser != null) {
@@ -48,16 +49,13 @@ class HomeController extends GetxController {
               .collection('members')
               .get();
 
-          // Clear previous data
           teamMembers.clear();
 
           for (var memberDoc in membersSnapshot.docs) {
-            // Add each member's data to the observable list
             teamMembers.add({
               'uid': memberDoc.id,
               'name': memberDoc.data()['name'],
               'email': memberDoc.data()['email'],
-              // Add other fields as needed
             });
           }
         }

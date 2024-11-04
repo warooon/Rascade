@@ -46,28 +46,9 @@ class ProfilePageView extends GetView<ProfilePageController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CircleAvatar(
-                        radius: 80,
-                        child: Stack(children: [
-                          Positioned(
-                            bottom: 5,
-                            right: -5,
-                            child: Image.asset(
-                              "assets/images/edit.png",
-                              width: 60,
-                              height: 60,
-                              color: Colors.red,
-                            ),
-                          ),
-                          const Positioned(
-                            top: 30,
-                            left: 30,
-                            child: Icon(
-                              Icons.person,
-                              size: 100,
-                            ),
-                          ),
-                        ]),
+                      Image.asset(
+                        "assets/images/robot.png",
+                        // size: 100,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

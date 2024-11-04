@@ -76,16 +76,15 @@ class SignUpPageController extends GetxController {
 
       String userId = userCredential.user!.uid;
 
-      // Save user data to the "users" collection
       await _firestore.collection('users').doc(userId).set({
         'name': name,
         'email': email,
         'phoneNumber': phoneNumber,
         'teamName': teamName,
+        'isAdmin': false,
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      // Add user to the team
       await _firestore
           .collection('teams')
           .doc(teamName)
